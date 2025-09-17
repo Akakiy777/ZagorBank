@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        background: linear-gradient(135deg, #ffffff, #d4d4d4);
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .shop-container {
+        width: 100%;
+        max-width: 1200px;
+        min-height: 800px;
+        background-color: white;
+        border-radius: 36px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    .shop-header {
+        display: flex;
+        justify-content: flex-end;
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .shop-btn {
+        padding: 8px 24px;
+        background-color: #7341ff;
+        color: white;
+        border-radius: 12px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: background-color 0.15s;
+        text-decoration: none;
+        border: none;
+    }
+
+    .shop-btn:hover {
+        background-color: #631bff;
+    }
+
+    .products-grid {
+        padding: 32px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 32px;
+    }
+
+    .product-card {
+        background-color: #f7f7f7;
+        border-radius: 24px;
+        overflow: hidden;
+        transition: box-shadow 0.15s;
+    }
+
+    .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .product-content {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .product-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .product-title {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .product-price {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .product-description {
+        color: #7f7f7f;
+    }
+
+    .product-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .icon-btn {
+        padding: 8px;
+        background-color: #e0e0e0;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.15s;
+    }
+
+    .icon-btn:hover {
+        background-color: #cacaca;
+    }
+
+    .buy-btn {
+        padding: 8px 24px;
+        background-color: #7341ff;
+        color: white;
+        border-radius: 12px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: background-color 0.15s;
+        text-decoration: none;
+    }
+
+    .buy-btn:hover {
+        background-color: #631bff;
+    }
+
+    .empty-state {
+        text-align: center;
+        width: 100%;
+        padding: 40px 0;
+    }
+
+    .empty-title {
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    /* Адаптивность для мобильных устройств */
+    @media (max-width: 768px) {
+        .shop-container {
+            border-radius: 24px;
+        }
+
+        .shop-header {
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .products-grid {
+            padding: 24px 16px;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .product-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .product-actions {
+            flex-direction: column;
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        .buy-btn {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        body {
+            padding: 12px;
+        }
+
+        .shop-header {
+            align-items: stretch;
+        }
+
+        .shop-btn {
+            justify-content: center;
+        }
+    }
+
+    .user-card:hover {
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .product-item {
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-item:hover {
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="products-grid" id="productList" style="text-align: center;">
+    {% if products %}
+    {% for pro in products %}
+    <div class="product-card product-item" data-name="{{ pro[2] }}" data-description="{{ pro[3] }}"
+        style="box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);">
+        <a href="/product/{{ pro[0] }}"><img src="../static/product/{{ pro[5] }}" alt="Product"
+                class="product-image"></a>
+        <div class="product-content" style="padding-top:0%;">
+            <a href="/product/{{ pro[0] }}" style="text-decoration: none;c">
+                <div class="product-header"
+                    style="display: flex;flex-direction: column;justify-content: space-around;align-items: start;">
+                    <h3 class="product-title"
+                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;color: black;">{{
+                        pro[2] }}</h3>
+                    <p class="product-description"
+                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                        {{
+                        pro[3] }}</p>
+                </div>
+            </a>
+            <div class="product-actions" style="display: flex;justify-content: space-between;align-items: center;flex-wrap: nowrap;">
+
+                <span class="product-price">Ƶ <span class="formattedBalance">{{ pro[4] }}</span></span>
+                {% if user[1] == this[1] or user[1] in admin %}
+                <a href="/edit_product/{{ pro[0] }}" class="icon-btn" style="text-decoration: none;">
+                    <span class="material-icons" style="text-decoration: none;color: black;">edit</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="empty-state">
+        <h1 class="empty-title">Нет товаров</h1>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const searchInput = document.getElementById('searchInput');
+    const productItems = document.querySelectorAll('.product-item');
+
+    searchInput.addEventListener('input', function () {
+        const searchTerm = this.value.toLowerCase();
+
+        productItems.forEach(item => {
+            const productName = item.getAttribute('data-name').toLowerCase();
+            const productDescription = item.getAttribute('data-description').toLowerCase();
+
+            if (productName.includes(searchTerm) || productDescription.includes(searchTerm)) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+    // Инициализация цены при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function () {
+        formatAllBalances();
+    });
+</script>
+{% endblock %}

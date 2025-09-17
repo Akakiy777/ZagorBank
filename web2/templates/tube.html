@@ -1,0 +1,504 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style>
+    @import url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap);
+
+    .tube-container {
+        width: 100%;
+        max-width: 1200px;
+        min-height: 800px;
+        background: white;
+        border-radius: 36px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        padding: 24px;
+    }
+
+    .tube-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .tube-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .tube-search-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .tube-search {
+        position: relative;
+        width: 400px;
+    }
+
+    .tube-search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+    }
+
+    .tube-search-input {
+        width: 100%;
+        padding: 12px 15px 12px 45px;
+        border-radius: 25px;
+        border: 1px solid #ddd;
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+    .tube-search-input:focus {
+        border-color: #7341ff;
+        box-shadow: 0 0 0 2px rgba(115, 65, 255, 0.2);
+    }
+
+    .content-type-select {
+        padding: 11px 15px;
+        border-radius: 25px;
+        border: 1px solid #ddd;
+        background: white;
+        font-size: 1rem;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 16px;
+        padding-right: 45px;
+    }
+
+    .content-type-select:focus {
+        border-color: #7341ff;
+        box-shadow: 0 0 0 2px rgba(115, 65, 255, 0.2);
+    }
+
+    .tube-content {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .tube-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+        .tube-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .tube-header {
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .tube-search-container {
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .tube-search {
+            width: 100%;
+        }
+
+        .tube-tabs {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    .video-item,
+    .post-item {
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+
+    .video-item:hover,
+    .post-item:hover {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .video-thumbnail {
+        aspect-ratio: 16/9;
+        background: #f5f5f5;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        overflow: hidden;
+    }
+
+    .video-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .video-content,
+    .post-content {
+        padding: 16px;
+    }
+
+    .video-meta,
+    .post-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .user-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #ddd;
+    }
+
+    .user-avatar.admin {
+        border-color: #ff3333;
+    }
+
+    .video-info,
+    .post-info {
+        flex: 1;
+    }
+
+    .video-title,
+    .post-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: #333;
+    }
+
+    .video-author,
+    .post-author {
+        font-size: 14px;
+        color: #999;
+    }
+
+    .video-stats,
+    .post-stats {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .video-likes,
+    .post-likes {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: #666;
+        font-size: 14px;
+    }
+
+    .post-excerpt {
+        color: #666;
+        margin-bottom: 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .post-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .read-more {
+        color: #7341ff;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .read-more:hover {
+        color: #5a2dcc;
+    }
+
+    .tube-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .tube-action-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #555;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .tube-action-icon:hover {
+        color: #7341ff;
+        transform: scale(1.1);
+    }
+
+    .z-balance {
+        font-weight: 600;
+        color: #7341ff;
+        margin-right: 8px;
+    }
+
+    /* Стили для переключателя контента */
+    .tube-tabs {
+        display: flex;
+        background: #f0f0f0;
+        border-radius: 8px;
+        padding: 4px;
+        margin: 0 15px;
+    }
+
+    .tube-tab {
+        padding: 8px 16px;
+        border: none;
+        background: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        color: #555;
+        transition: all 0.3s ease;
+    }
+
+    .tube-tab.active,
+    .tube-tab:hover {
+        background: white;
+        color: #7341ff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .content-section {
+        display: none;
+    }
+
+    .content-section.active {
+        display: block;
+    }
+</style>
+{% endblock %}
+
+{% block navbar %}
+<div class="search-container">
+    <span class="material-symbols-outlined search-icon">search</span>
+    <input type="text" class="search-input" placeholder="Поиск..." id="searchInput">
+</div>
+<select class="content-type-select" id="contentTypeSelect">
+    <option value="videos" selected>Видео</option>
+    <option value="posts">Посты</option>
+</select>
+{% endblock %}
+
+{% block content %}
+<div class="tube-content">
+    <!-- Только видео -->
+    <div class="content-section active" id="videosContent">
+        <div class="tube-grid" id="videoListOnly">
+            {% for video in videos %}
+            <div class="video-item"
+                style="box-shadow: none;border-radius: 10px;box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);">
+                <a href="/video/{{ video[0] }}">
+                    <div class="video-thumbnail">
+                        <img src="{{ url_for('static', filename='images/' + video[10]) }}" alt="{{ video[6] }}"
+                            style="border-radius: 10px 10px 0 10px;">
+                    </div>
+                </a>
+                <div class="video-content">
+                    <div class="video-meta">
+                        <a href="/profile/{{ video[2] }}">
+                            <img src="{{ url_for('static', filename='avatars/'+video[5] ) }}"
+                                class="user-avatar {% if video[2] in admin %}admin-img{% endif %}" />
+                        </a>
+                        <div class="video-info">
+                            <a style="text-decoration: none;" href="/video/{{ video[0] }}">
+                                <h3 class="video-title {% if video[2] in admin %}admin{% endif %}">{{ video[6] }}
+                                </h3>
+                            </a>
+                            <a style="text-decoration: none;" href="/profile/{{ video[2] }}">
+                                <p class="video-author">{{ video[2] }} | <span>Ƶ <span class="formattedBalance">{{
+                                            video[4] }}</span></span></p>
+                            </a>
+                        </div>
+                        <div class="video-stats">
+                            <div class="video-likes">
+                                <span class="material-symbols-outlined">thumb_up</span>
+                                <span>{{ video[8] }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Только посты -->
+    <div class="content-section" id="postsContent">
+        <div class="tube-grid" id="postListOnly">
+            {% for post in posts %}
+            <div class="post-item"
+                style="box-shadow: none; border-radius: 10px;box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);">
+                <div class="post-content">
+                    <div class="post-meta">
+                        <a style="text-decoration: none;" href="/profile/{{ post[2] }}">
+                            <img src="{{ url_for('static', filename='avatars/'+post[5] ) }}"
+                                class="user-avatar {% if post[2] in admin %}admin-img{% endif %}" />
+                        </a>
+                        <div class="post-info">
+                            <a style="text-decoration: none;" href="/post/{{ post[0] }}">
+                                <h3 class="post-title {% if post[2] in admin %}admin{% endif %}">{{ post[6] }}</h3>
+                            </a>
+                            <a style="text-decoration: none;" href="/profile/{{ post[2] }}">
+                                <p class="post-author ">{{ post[2] }} | <span>Ƶ <span class="formattedBalance">{{
+                                            post[4] }}</span></span></p>
+                            </a>
+                        </div>
+                        <div class="post-stats">
+                            <div class="post-likes">
+                                <span class="material-symbols-outlined">thumb_up</span>
+                                <span>{{ post[8] }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a style="text-decoration: none;" href="/post/{{ post[0] }}">
+                        <p class="post-excerpt">{{ post[7] }}</p>
+                    </a>
+                    <div class="post-actions">
+                        <a href="/post/{{ post[0] }}" class="read-more">Читать полностью</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('searchInput');
+        const tubeSearchInput = document.getElementById('tubeSearchInput');
+        const contentTypeSelect = document.getElementById('contentTypeSelect');
+        const videoContent = document.getElementById('videosContent');
+        const postContent = document.getElementById('postsContent');
+
+        const videoItems = document.querySelectorAll('.video-item');
+        const postItems = document.querySelectorAll('.post-item');
+
+        // Функция для переключения контента
+        function switchContent(type) {
+            if (type === 'videos') {
+                videoContent.classList.add('active');
+                postContent.classList.remove('active');
+            } else if (type === 'posts') {
+                videoContent.classList.remove('active');
+                postContent.classList.add('active');
+            }
+
+            // Обновляем поиск при смене контента
+            performSearch(tubeSearchInput.value.toLowerCase());
+        }
+
+        // Обработчик для выпадающего списка
+        contentTypeSelect.addEventListener('change', function () {
+            switchContent(this.value);
+        });
+
+        // Функция поиска
+        function performSearch(searchTerm) {
+            const activeContent = document.querySelector('.content-section.active').id;
+
+            if (activeContent === 'videosContent') {
+                videoItems.forEach(item => {
+                    const videoTitle = item.querySelector('.video-title').textContent.toLowerCase();
+                    if (videoTitle.includes(searchTerm)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            } else if (activeContent === 'postsContent') {
+                postItems.forEach(item => {
+                    const postTitle = item.querySelector('.post-title').textContent.toLowerCase();
+                    if (postTitle.includes(searchTerm)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        // Обработчики для поиска
+        if (tubeSearchInput) {
+            tubeSearchInput.addEventListener('input', function () {
+                performSearch(this.value.toLowerCase());
+            });
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function () {
+                performSearch(this.value.toLowerCase());
+            });
+        }
+
+        // Форматирование балансов
+        document.querySelectorAll('.z-balance').forEach(element => {
+            const value = element.textContent.replace('Z ', '').trim();
+            element.textContent = 'Z ' + formatBalance(value);
+        });
+
+        document.querySelectorAll('.video-author, .post-author').forEach(element => {
+            const parts = element.textContent.split('|');
+            if (parts.length > 1) {
+                const balancePart = parts[1].trim();
+                if (balancePart.startsWith('Z ')) {
+                    const balanceValue = balancePart.replace('Z ', '').trim();
+                    parts[1] = 'Z ' + formatBalance(balanceValue);
+                    element.textContent = parts.join(' | ');
+                }
+            }
+        });
+
+        // Функция для форматирования баланса (если не определена)
+        if (typeof formatBalance !== 'function') {
+            window.formatBalance = function (value) {
+                return Number(value).toLocaleString('ru-RU');
+            }
+        }
+
+        // По умолчанию показываем видео
+        switchContent('videos');
+    });
+</script>
+{% endblock %}

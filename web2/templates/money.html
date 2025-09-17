@@ -1,0 +1,446 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        background: linear-gradient(135deg, #ffffff, #d4d4d4);
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .money-container {
+        width: 100%;
+        max-width: 1200px;
+        background-color: white;
+        border-radius: 36px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+        padding: 32px;
+        overflow: hidden;
+    }
+
+    .money-content {
+        display: flex;
+        gap: 32px;
+    }
+
+    .money-section {
+        flex: 1;
+        padding: 24px;
+        border-radius: 24px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.15s;
+    }
+
+    .money-section:hover {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .deposit-section {
+        background: linear-gradient(135deg, #ecfdf5, #f0fdfa);
+        border: 1px solid #d1fae5;
+    }
+
+    .withdraw-section {
+        background: linear-gradient(135deg, #f5f3ff, #fdf4ff);
+        border: 1px solid #e9d5ff;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .section-icon {
+        font-size: 36px;
+    }
+
+    .deposit-icon {
+        color: #059669;
+    }
+
+    .withdraw-icon {
+        color: #7c3aed;
+    }
+
+    .section-title {
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .deposit-title {
+        color: #065f46;
+    }
+
+    .withdraw-title {
+        color: #5b21b6;
+    }
+
+    .instructions {
+        margin-bottom: 24px;
+    }
+
+    .instructions-summary {
+        padding: 16px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 12px;
+        border: 1px solid;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 500;
+    }
+
+    .deposit-summary {
+        border-color: #a7f3d0;
+        color: #065f46;
+    }
+
+    .withdraw-summary {
+        border-color: #d8b4fe;
+        color: #5b21b6;
+    }
+
+    .instructions-content {
+        padding: 16px;
+        margin-top: 8px;
+        border-radius: 12px;
+        font-size: 16px;
+    }
+
+    .deposit-content {
+        background-color: rgba(209, 250, 229, 0.5);
+    }
+
+    .withdraw-content {
+        background-color: rgba(221, 214, 254, 0.5);
+    }
+
+    .instruction-step {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .step-icon {
+        font-size: 18px;
+    }
+
+    .input-container {
+        position: relative;
+        margin-bottom: 24px;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .deposit-input-icon {
+        color: #059669;
+    }
+
+    .withdraw-input-icon {
+        color: #7c3aed;
+    }
+
+    .money-input {
+        width: 100%;
+        padding: 16px 16px 16px 48px;
+        font-size: 16px;
+        border-radius: 12px;
+        border: 2px solid;
+        outline: none;
+        transition: border-color 0.15s, box-shadow 0.15s;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .deposit-input {
+        border-color: #a7f3d0;
+    }
+
+    .deposit-input:focus {
+        border-color: #34d399;
+        box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.5);
+    }
+
+    .withdraw-input {
+        border-color: #d8b4fe;
+    }
+
+    .withdraw-input:focus {
+        border-color: #a855f7;
+        box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.5);
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 16px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.15s;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .deposit-button {
+        background: linear-gradient(to right, #10b981, #14b8a6);
+        color: white;
+    }
+
+    .deposit-button:hover {
+        background: linear-gradient(to right, #059669, #0d9488);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .withdraw-button {
+        background: linear-gradient(to right, #8b5cf6, #d946ef);
+        color: white;
+    }
+
+    .withdraw-button:hover {
+        background: linear-gradient(to right, #7c3aed, #c026d3);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Модальное окно */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 24px;
+        border-radius: 12px;
+        width: 80%;
+        max-width: 500px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    .close {
+        color: #aaa;
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover {
+        color: #000;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 968px) {
+        .money-content {
+            flex-direction: column;
+        }
+        
+        .money-section {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .money-container {
+            padding: 16px;
+            border-radius: 24px;
+        }
+        
+        .section-header {
+            flex-direction: column;
+            text-align: center;
+            gap: 8px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="money-content">
+        <!-- Секция пополнения баланса -->
+        <div class="money-section deposit-section">
+            <div class="section-header">
+                <span class="material-icons section-icon deposit-icon">account_balance_wallet</span>
+                <h2 class="section-title deposit-title">Пополнить баланс</h2>
+            </div>
+            
+            <div class="instructions">
+                <details class="instructions-details">
+                    <summary class="instructions-summary deposit-summary">
+                        <span>Инструкция по пополнению</span>
+                        <span class="material-icons">expand_more</span>
+                    </summary>
+                    <div class="instructions-content deposit-content">
+                        <div class="instruction-step">
+                            <span class="material-icons step-icon">looks_one</span>
+                            <span>Передайте деньги</span>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="material-icons step-icon">looks_two</span>
+                            <span>Получите код</span>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="material-icons step-icon">looks_3</span>
+                            <span>Введите код</span>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="material-icons step-icon">looks_4</span>
+                            <span>Дождитесь зачисления</span>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="material-icons step-icon">looks_5</span>
+                            <span>Проверьте баланс</span>
+                        </div>
+                    </div>
+                </details>
+            </div>
+            
+            <form action="/money" method="post">
+                <input type="hidden" name="action" value="deposit">
+                <div class="input-container">
+                    <span class="input-icon deposit-input-icon">@</span>
+                    <input type="text" name="code" placeholder="Введите код" class="money-input deposit-input" required>
+                </div>
+                <button type="submit" class="submit-button deposit-button">
+                    <span class="material-icons">check_circle</span>
+                    Подтвердить
+                </button>
+            </form>
+        </div>
+        
+        <!-- Секция вывода средств -->
+        <div class="money-section withdraw-section">
+            <div class="section-header">
+                <span class="material-icons section-icon withdraw-icon">payments</span>
+                <h2 class="section-title withdraw-title">Вывести средства</h2>
+            </div>
+            
+            <div class="instructions">
+                <details class="instructions-details">
+                    <summary class="instructions-summary withdraw-summary">
+                        <span>Инструкция по выводу</span>
+                        <span class="material-icons">expand_more</span>
+                    </summary>
+                    <div class="instructions-content withdraw-content">
+                        <div class="instruction-step">
+                            <span class="material-icons step-icon">looks_one</span>
+                            <span>Укажите сумму вывода</span>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="material-icons step-icon">looks_two</span>
+                            <span>Подтвердите операцию</span>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="material-icons step-icon">looks_3</span>
+                            <span>Получите код</span>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="material-icons step-icon">looks_4</span>
+                            <span>Предоставьте код сотруднику</span>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="material-icons step-icon">looks_5</span>
+                            <span>Получите деньги</span>
+                        </div>
+                    </div>
+                </details>
+            </div>
+            
+            <form action="/money" method="post">
+                <input type="hidden" name="action" value="withdraw">
+                <div class="input-container">
+                    <span class="input-icon withdraw-input-icon">Ƶ</span>
+                    <input type="text" name="amount" placeholder="Введите сумму" class="money-input withdraw-input" required>
+                </div>
+                <button type="submit" class="submit-button withdraw-button">
+                    <span class="material-icons">check_circle</span>
+                    Подтвердить
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <div id="modalMessage"></div>
+    </div>
+</div>
+{% endblock %}
+{% block navbar %}{% endblock %}
+
+
+{% block scripts %}
+<script>
+    // Обработка модального окна
+    var modal = document.getElementById("modal");
+    var closeBtn = document.getElementById("closeModal");
+    var modalMessage = document.getElementById("modalMessage");
+
+    // Получаем сообщение из сервера
+    var messages = {{ get_flashed_messages()|tojson }};
+    
+    // Проверяем, есть ли сообщения
+    if (messages.length > 0) {
+        modalMessage.innerHTML = messages[0];
+        modal.style.display = "block";
+    }
+
+    // Закрываем модальное окно при нажатии на крестик
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Закрываем модальное окно при нажатии вне его
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+{% endblock %}

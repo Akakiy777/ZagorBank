@@ -1,0 +1,638 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        line-height: 1.6;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+        background-color: #ffffff;
+        color: #333;
+    }
+
+    .profile-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .profile-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        padding: 24px;
+        margin-bottom: 20px;
+        border: 1px solid #f7f7f7;
+    }
+
+    .profile-content {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .profile-sidebar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .avatar-container {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 20px;
+    }
+
+    .profile-avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        transition: all 0.15s ease;
+        border: 3px solid #f0f0f0;
+    }
+
+    .admin-border {
+        border: 3px solid #ff4757;
+    }
+
+    .avatar-upload-container {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        transition: transform 0.15s ease;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .avatar-upload-container:hover {
+        transform: scale(1.1);
+        background: #f8f9fa;
+    }
+
+    .avatar-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin-top: 16px;
+    }
+
+    .avatar-upload-btn {
+        padding: 8px 16px;
+        background: #7341ff;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.2s ease;
+    }
+
+    .avatar-upload-btn:hover {
+        background: #631bff;
+    }
+
+    .profile-name {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .admin-text {
+        color: #ff4757;
+    }
+
+    .profile-bio {
+        color: #666;
+        margin-bottom: 16px;
+        font-size: 14px;
+    }
+
+    .profile-main {
+        background-color: #f7f7f7;
+        border-radius: 16px;
+        padding: 24px;
+        color: rgba(0, 0, 0, 0.9);
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.15s ease;
+        cursor: pointer;
+        border: none;
+        text-align: center;
+        font-size: 14px;
+        margin: 4px 0;
+        width: 100%;
+    }
+
+    .btn-primary {
+        background-color: #7341ff;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #631bff;
+    }
+
+    .btn-blue {
+        background-color: #3b82f6;
+        color: white;
+    }
+
+    .btn-blue:hover {
+        background-color: #2563eb;
+    }
+
+    .btn-green {
+        background-color: #22c55e;
+        color: white;
+    }
+
+    .btn-green:hover {
+        background-color: #16a34a;
+    }
+
+    .btn-red {
+        background-color: #ef4444;
+        color: white;
+    }
+
+    .btn-red:hover {
+        background-color: #dc2626;
+    }
+
+    .btn-emerald {
+        background-color: #10b981;
+        color: white;
+    }
+
+    .btn-emerald:hover {
+        background-color: #059669;
+    }
+
+    .btn-large {
+        padding: 12px 24px;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .btn-medium {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .balance-card {
+        background: white;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        margin-bottom: 16px;
+        border: 1px solid #eee;
+    }
+
+    .balance-label {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 4px;
+    }
+
+    .balance-amount {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: #333;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .currency-symbol {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+        color: #666;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px 16px 12px 32px;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        outline: none;
+        transition: all 0.15s ease;
+        font-size: 16px;
+        background: white;
+    }
+
+    .form-input:focus {
+        border-color: #7341ff;
+        box-shadow: 0 0 0 2px rgba(115, 65, 255, 0.1);
+    }
+
+    .form-textarea {
+        width: 100%;
+        padding: 12px 16px;
+        height: 128px;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        outline: none;
+        transition: all 0.15s ease;
+        resize: none;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+        background: white;
+    }
+
+    .form-textarea:focus {
+        border-color: #7341ff;
+        box-shadow: 0 0 0 2px rgba(115, 65, 255, 0.1);
+    }
+
+    .action-buttons {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .flex-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .gap-2 {
+        gap: 8px;
+    }
+
+    .section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        border: 1px solid #eee;
+    }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: #333;
+    }
+
+    .admin-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #eee;
+    }
+
+    .admin-details {
+        margin-top: 16px;
+    }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 16px;
+        table-layout: fixed;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        border: 1px solid #eee;
+        padding: 10px;
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 14px;
+    }
+
+    .admin-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+    }
+
+    .admin-table td {
+        cursor: pointer;
+        background: white;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+        margin-right: 4px;
+        font-size: 18px;
+    }
+
+    /* Медиа-запросы для планшетов и десктопов */
+    @media (min-width: 768px) {
+        body {
+            padding: 24px;
+        }
+        
+        .profile-card {
+            border-radius: 20px;
+            padding: 32px;
+        }
+        
+        .profile-content {
+            flex-direction: row;
+            gap: 32px;
+        }
+        
+        .profile-sidebar {
+            width: 300px;
+            align-items: flex-start;
+            text-align: left;
+            flex-shrink: 0;
+        }
+        
+        .avatar-container {
+            width: 180px;
+            height: 180px;
+        }
+        
+        .profile-name {
+            font-size: 22px;
+        }
+        
+        .profile-main {
+            border-radius: 20px;
+            padding: 24px;
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .btn-large {
+            width: 240px;
+        }
+        
+        .btn-medium {
+            width: 240px;
+        }
+        
+        .action-buttons {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        
+        .flex-wrap {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        
+        .balance-card {
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .balance-amount {
+            font-size: 24px;
+        }
+        
+        .form-input, .form-textarea {
+            border-radius: 8px;
+        }
+
+        .section {
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .admin-section {
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .btn {
+            width: auto;
+        }
+    }
+
+    /* Специальные стили для админ-секции */
+    details summary {
+        cursor: pointer;
+        outline: none;
+    }
+
+    details summary::-webkit-details-marker {
+        display: none;
+    }
+
+    details[open] {
+        overflow: visible;
+        height: auto;
+    }
+
+    details[open] .admin-details {
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+<div class="profile-container" style="height: 646px;border-radius: 24px;">
+    <div class="profile-card" style="width: 100%;min-height: 646px;">
+        <div class="profile-content">
+            <div class="profile-sidebar">
+                <div class="avatar-container">
+                    <img src="{{ url_for('static', filename='avatars/'+user[5] ) }}" 
+                        class="profile-avatar {% if user[1] in admin %}admin-border{% else %}" style="border: 2px solid #ddd;"{% endif %}" />
+                    <form method="POST" enctype="multipart/form-data" class="avatar-form">
+                        <label for="avatar-upload" class="avatar-upload-container">
+                            <span class="material-symbols-outlined">edit</span>
+                        </label>
+                        <input type="file" name="avatar" class="hidden" id="avatar-upload" onchange="this.form.submit()" />
+                    </form>
+                </div>
+                
+                <div style="margin-bottom: 16px; width: 100%;">
+                    <form method="POST">
+                        <div class="form-group">
+                            {% if user[1] in admin %}<label class="form-label admin" style="font-size: 20px;"><strong>Имя администратора</strong></label>
+                            {% else %}<label class="form-label " style="font-size: 20px;"><strong>Имя пользователя</strong></label>{% endif %}
+                            <input type="text" name="name" value="{{ user[1] }}" class="form-input" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" style="font-size: 20px;"><strong>Описание</strong></label>
+                            <textarea name="description" class="form-textarea">{{ user[4] }}</textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-large">
+                            Сохранить изменения
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="profile-main">
+                <div class="section">
+                    <h3 class="section-title" style="color: #22c55e;"><span class="material-symbols-outlined">key</span> Изменение пароля</h3>
+                    <form method="POST">
+                        <div class="form-group">
+                            <input type="password" name="new_password" placeholder="Новый пароль" class="form-input" required />
+                        </div>
+
+                        <div class="form-group">
+                            <input type="password" name="confirm_new_password" placeholder="Подтверждение нового пароля" class="form-input" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Сменить пароль
+                        </button>
+                    </form>
+                </div>
+                
+                {% if auser[1] in admin %}
+                <div class="admin-section">
+                    <details>
+                        <summary class="section-title" style="cursor: pointer; display: flex; align-items: center;color: #3b82f6;">
+                            <span class="material-symbols-outlined" style="margin-right: 8px;">admin_panel_settings</span>
+                            Настройки администратора
+                        </summary>
+
+                        <div class="admin-details">
+                            <div class="form-group">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                                    <span class="form-label">Баланс:</span>
+                                    <span style="font-size: 24px; font-weight: bold;">Ƶ <span class="formattedBalance">{{ user[3]
+                                }}</span></span>
+                                </div>
+
+                                <form method="POST">
+                                    <div class="form-group">
+                                        <label class="form-label">Изменить баланс</label>
+                                        <div class="input-wrapper">
+                                            <span class="currency-symbol">Ƶ</span>
+                                            <input type="text" name="balance" class="form-input" placeholder="Новая сумма" />
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-emerald">
+                                        <span class="material-symbols-outlined">update</span> Изменить баланс
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="form-group">
+                                <h4 style="font-size: 18px; font-weight: 500; margin-bottom: 16px;">
+                                    Данные о пользователе {{ user[1] }}
+                                </h4>
+
+                                <table class="admin-table">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Username</th>
+                                        <th>Balance</th>
+                                        <th>Description</th>
+                                        <th>Avatar</th>
+                                    </tr>
+                                    <tr>
+                                        <td onclick="alert('{{ user[0] }}')">{{ user[0] }}</td>
+                                        <td onclick="alert('{{ user[1] }}')">{{ user[1] }}</td>
+                                        <td onclick="alert('{{ user[3] }}')">{{ user[3] }}</td>
+                                        <td onclick="alert('{{ user[4] }}')">{{ user[4] }}</td>
+                                        <td onclick="alert('{{ user[5] }}')">{{ user[5] }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="form-group">
+                                <h4 style="font-size: 18px; font-weight: 500; margin-bottom: 16px;">Осторожно</h4>
+
+                                <form method="POST" action="/delete">
+                                    <input type="number" name="id" value="{{ user[0] }}" class="hidden">
+                                    <input type="text" name="table" value="users" class="hidden">
+                                    <input type="text" name="back" value="/main" class="hidden">
+
+                                    <button type="submit" name="delete_account" class="btn btn-red">
+                                        <span class="material-symbols-outlined">delete_forever</span> Удалить аккаунт
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Автоматическое обновление предпросмотра аватарки при выборе файла
+    document.getElementById('avatar-upload').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.querySelector('.profile-avatar').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,421 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        line-height: 1.6;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #ffffff, #d4d4d4);
+        color: #333;
+    }
+
+    .profile-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .profile-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .profile-content {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .profile-sidebar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-bottom: 16px;
+        object-fit: cover;
+        transition: box-shadow 0.15s ease;
+    }
+
+    .profile-avatar:hover {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    }
+
+    .admin-border {
+        border: 6px solid red;
+    }
+
+    .profile-name {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .admin-text {
+        color: red;
+    }
+
+    .profile-bio {
+        color: #999;
+        margin-bottom: 16px;
+        font-size: 14px;
+    }
+
+    .profile-main {
+        background-color: #f7f7f7;
+        border-radius: 16px;
+        padding: 20px;
+        color: rgba(0, 0, 0, 0.9);
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 16px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.15s ease;
+        cursor: pointer;
+        border: none;
+        text-align: center;
+        font-size: 14px;
+        margin: 4px 0;
+    }
+
+    .btn-primary {
+        background-color: #7341ff;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .btn-primary:hover {
+        background-color: #631bff;
+    }
+
+    .btn-blue {
+        background-color: #3b82f6;
+        color: white;
+    }
+
+    .btn-blue:hover {
+        background-color: #2563eb;
+    }
+
+    .btn-green {
+        background-color: #22c55e;
+        color: white;
+    }
+
+    .btn-green:hover {
+        background-color: #16a34a;
+    }
+
+    .btn-red {
+        background-color: #ef4444;
+        color: white;
+    }
+
+    .btn-red:hover {
+        background-color: #dc2626;
+    }
+
+    .btn-large {
+        padding: 12px;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .btn-medium {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .balance-card {
+        background: white;
+        border-radius: 16px;
+        padding: 14px;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        margin-bottom: 16px;
+    }
+
+    .balance-label {
+        font-size: 14px;
+        color: #999;
+        margin-bottom: 4px;
+    }
+
+    .balance-amount {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .currency-symbol {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 10px 16px 10px 32px;
+        border-radius: 20px;
+        border: 1px solid #e5e7eb;
+        outline: none;
+        transition: all 0.15s ease;
+        font-size: 16px;
+        /* Увеличиваем для удобства на мобильных */
+    }
+
+    .form-input:focus {
+        border-color: transparent;
+        box-shadow: 0 0 0 2px #7341ff;
+    }
+
+    .form-textarea {
+        width: 100%;
+        padding: 12px;
+        height: 100px;
+        border-radius: 16px;
+        border: 1px solid #e5e7eb;
+        outline: none;
+        transition: all 0.15s ease;
+        resize: vertical;
+        font-size: 16px;
+        /* Увеличиваем для удобства на мобильных */
+    }
+
+    .form-textarea:focus {
+        border-color: transparent;
+        box-shadow: 0 0 0 2px #7341ff;
+    }
+
+    .action-buttons {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 16px;
+    }
+
+    .flex-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .gap-2 {
+        gap: 8px;
+    }
+
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+
+    /* Медиа-запросы для планшетов и десктопов */
+    @media (min-width: 768px) {
+        body {
+            padding: 24px;
+        }
+
+        .profile-card {
+            border-radius: 24px;
+            padding: 32px;
+        }
+
+        .profile-content {
+            flex-direction: row;
+            gap: 32px;
+        }
+
+        .profile-sidebar {
+            width: 300px;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .profile-avatar {
+            width: 192px;
+            height: 192px;
+        }
+
+        .profile-name {
+            font-size: 24px;
+        }
+
+        .profile-main {
+            border-radius: 24px;
+            padding: 24px;
+            flex: 1;
+        }
+
+        .btn-large {
+            width: 240px;
+        }
+
+        .btn-medium {
+            width: 240px;
+        }
+
+        .action-buttons {
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        .flex-wrap {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .balance-card {
+            border-radius: 24px;
+            padding: 16px;
+        }
+
+        .balance-amount {
+            font-size: 24px;
+        }
+
+        .form-input,
+        .form-textarea {
+            border-radius: 24px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+<div class="profile-container" style="width: 100%;min-height: 646px;">
+    <div class="profile-card">
+        <div class="profile-content">
+            <div class="profile-sidebar">
+                <img src="{{ url_for('static', filename='avatars/'+user[5] ) }}"
+                    class="profile-avatar {% if user[1] in admin %}admin-border{% else %}"
+                    style="border: 2px solid #ddd;" {% endif %}" />
+                <div style="margin-bottom: 16px; width: 100%;">
+                    <h2 class="profile-name {% if user[1] in admin %}admin-text{% endif %}">
+                        {{ user[1] }} {% if user[1] in admin %}Админ{% endif %}
+                    </h2>
+                    <p class="profile-bio">{{ user[4] }}</p>
+
+                    <a href="/shop/{{ user[1] }}" class="btn btn-primary btn-large" style="margin-bottom: 16px;">
+                        Перейти в магазин
+                    </a>
+
+                    {% if auser[1] in admin %}
+                    <div class="flex-wrap gap-2">
+                        <a href="/login_as/{{ user[1] }}" class="btn btn-blue btn-medium">
+                            Войти как {{ user[1] }}
+                        </a>
+                        <a href="/edit/{{ user[1] }}" class="btn btn-green btn-medium">
+                            Изменить профиль
+                        </a>
+                        <a href="/edit/{{ user[1] }}" class="btn btn-red btn-medium">
+                            Удалить акаунт
+                        </a>
+                    </div>
+                    {% else %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="profile-main">
+                <form action="/send_money/{{ user[1] }}" method="POST">
+                    <div style="margin-bottom: 16px;">
+                        <div class="balance-card">
+                            <p class="balance-label">Баланс {{ user[1] }}</p>
+                            <p class="balance-amount">Ƶ <span class="formattedBalance">{{ user[3]
+                                    }}</span></p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Количество отправляемых денег</label>
+                            <div class="input-wrapper">
+                                <span class="currency-symbol">Z</span>
+                                <input type="text" name="amount" required class="form-input" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Сообщение (по желанию)</label>
+                            <textarea name="message" class="form-textarea"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">
+                            <span class="material-symbols-outlined">send</span> Отправить
+                        </button>
+                    </div>
+                </form>
+
+                <div class="action-buttons">
+                    <a href="/chat/{{ auser[1] }}/{{ user[1] }}" class="btn btn-primary btn-large">
+                        <span class="material-symbols-outlined">chat</span> Чат с {{ user[1] }}
+                    </a>
+
+                    {% if auser[1] in admin %}
+                    <a href="/chat/{{ user[1] }}/start" class="btn btn-primary btn-large">
+                        <span class="material-symbols-outlined">chat</span> Чаты {{ user[1] }}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function scrollToBottom() {
+        const container = document.getElementById('message-container');
+        if (container) {
+            container.scrollTop = container.scrollHeight;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        scrollToBottom();
+    });
+</script>
+{% endblock %}

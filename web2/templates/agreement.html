@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style>
+    @import url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap);
+    @import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200);
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        padding: 16px;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #ffffff, #d4d4d4);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .agreement-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 20px 0;
+    }
+    
+    .agreement-card {
+        background-color: white;
+        border-radius: 24px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        width: 100%;
+    }
+    
+    .agreement-content {
+        width: 100%;
+    }
+    
+    .agreement-header {
+        background-color: #f9fafb;
+        padding: 20px;
+        border-radius: 16px;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        margin-bottom: 24px;
+    }
+    
+    .header-flex {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 8px;
+    }
+    
+    @media (min-width: 768px) {
+        .header-flex {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+    
+    .agreement-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1f2937;
+    }
+    
+    .agreement-subtitle {
+        color: #4b5563;
+        margin-top: 8px;
+    }
+    
+    .back-button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background-color: #e5e7eb;
+        border-radius: 16px;
+        transition: all 0.3s;
+        color: #1f2937;
+        text-decoration: none;
+        font-weight: 500;
+        width: fit-content;
+    }
+    
+    .back-button:hover {
+        background-color: #d1d5db;
+    }
+    
+    .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1f2937;
+        margin: 24px 0 16px 0;
+    }
+    
+    .section-content {
+        margin-bottom: 24px;
+    }
+    
+    .section-content p {
+        margin-bottom: 12px;
+        color: #4b5563;
+        line-height: 1.6;
+    }
+    
+    /* Улучшения для мобильных устройств */
+    @media (max-width: 767px) {
+        body {
+            padding: 12px;
+        }
+        
+        .agreement-card {
+            padding: 16px;
+            border-radius: 16px;
+        }
+        
+        .agreement-header {
+            padding: 16px;
+        }
+        
+        .agreement-title {
+            font-size: 20px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+        }
+        
+        .back-button {
+            padding: 8px 16px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+<div class="agreement-container">
+    <div class="agreement-card">
+        <div class="agreement-content">
+            <div class="agreement-header">
+                <div class="header-flex">
+                    <h2 class="agreement-title">Лицензионное соглашение</h2>
+                    <a href="/reglog" class="back-button">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        Назад
+                    </a>
+                </div>
+                <p class="agreement-subtitle">Пожалуйста, внимательно прочитайте наши условия использования перед продолжением.</p>
+            </div>
+            
+            <section class="section-content">
+                <h2 class="section-title">1. Условия использования</h2>
+                <div>
+                    <p>1.1. Вы должны быть не моложе 18 лет для использования данного сервиса.</p>
+                    <p>1.2. Вы соглашаетесь предоставлять точную и полную информацию.</p>
+                    <p>1.3. Вы несете ответственность за безопасность своей учетной записи.</p>
+                    <p>1.4. Вы не должны использовать сервис в незаконных целях.</p>
+                    <p>1.5. Вы соглашаетесь не копировать и не распространять контент.</p>
+                    <p>1.6. Вы должны уважать конфиденциальность других пользователей.</p>
+                    <p>1.7. Вы не должны пытаться нарушить безопасность системы.</p>
+                    <p>1.8. Вы обязаны соблюдать все применимые законы.</p>
+                    <p>1.9. Вы соглашаетесь получать обновления сервиса.</p>
+                    <p>1.10. Вы не должны выдавать себя за других.</p>
+                </div>
+            </section>
+            
+            <section class="section-content">
+                <h2 class="section-title">2. Политика конфиденциальности</h2>
+                <div>
+                    <p>2.1. Мы собираем персональную информацию, которую вы предоставляете.</p>
+                    <p>2.2. Мы используем файлы cookie для улучшения пользовательского опыта.</p>
+                    <p>2.3. Ваши данные хранятся в не безопасности.</p>
+                    <p>2.4. Мы можем продаем персональную информацию.</p>
+                    <p>2.5. Вы не можете запросить удаление ваших данных.</p>
+                    <p>2.6. Мы можем делиться данными с поставщиками услуг.</p>
+                    <p>2.7. Мы не используем шифрование для защиты данных.</p>
+                    <p>2.8. Вы не можете отказаться от маркетинговых коммуникаций.</p>
+                    <p>2.9. Мы оставляем за собой право использовать все ваши данные в своих целях.</p>
+                    <p>2.10. Мы можем периодически обновлять эту политику.</p>
+                </div>
+            </section>
+            
+            <section class="section-content">
+                <h2 class="section-title">3. Интеллектуальная собственность</h2>
+                <div>
+                    <p>3.1. Весь контент защищен авторским правом.</p>
+                    <p>3.2. Наши товарные знаки не могут использоваться без разрешения.</p>
+                    <p>3.3. Вы передаёте нам права на свой загруженный контент.</p>
+                    <p>3.4. Вы предоставляете нам лицензию на использование вашего контента.</p>
+                    <p>3.5. Мы уважаем права интеллектуальной собственности.</p>
+                    <p>3.6. Вы не должны нарушать права других.</p>
+                    <p>3.7. Мы можем удалять любой контент.</p>
+                    <p>3.8. Вы должны сообщать о нарушениях авторских прав.</p>
+                    <p>3.9. Вы не имеете право подавать на нас в суд.</p>
+                    <p>3.10. Любые нарушения приводят к удалению аккаунта.</p>
+                </div>
+            </section>
+            
+            <section class="section-content">
+                <h2 class="section-title">4. Ответственность</h2>
+                <div>
+                    <p>4.1. Мы не несём ответственность за ваше здоровье.</p>
+                    <p>4.2. Мы не несём ответственности за ваши данных.</p>
+                    <p>4.3. Вы используете сервис на свой страх и риск.</p>
+                    <p>4.4. Мы не гарантируем доступность сервиса.</p>
+                    <p>4.5. Вы освобождаете нас от претензий.</p>
+                    <p>4.6. Мы ограничиваем нашу ответственность максимально возможным образом.</p>
+                    <p>4.7. Вы несете ответственность за свой контент.</p>
+                    <p>4.8. Мы можем вносить любые изменения в сервис без предварительного уведомления.</p>
+                    <p>4.9. Мы не отвечаем за свои действия и за действия третьих лиц.</p>
+                    <p>4.10. Все не несём ответственность за не описаные здесь проишествия.</p>
+                </div>
+            </section>
+            
+            <section class="section-content">
+                <h2 class="section-title">5. Прекращение</h2>
+                <div>
+                    <p>5.1. Мы можем прекратить ваш аккаунт в любое время.</p>
+                    <p>5.2. Вы можете отменить свой аккаунт в любое время.</p>
+                    <p>5.3. Прекращение доступа приводит к потере доступа к всем услугам.</p>
+                    <p>5.4. Ваши обезательства и наши права остаются в силе после прекращения.</p>
+                    <p>5.5. Мы можем хранить ваши данные после прекращения.</p>
+                    <p>5.6. Возвраты не предусмотрены при прекращении.</p>
+                    <p>5.7. Вы по любой нашей просьбе обязаны прекратить использование нашего сервиса.</p>
+                    <p>5.8. Мы можем удалить ваш контент.</p>
+                    <p>5.9. Вы не можете создавать новые аккаунты после прекращения.</p>
+                    <p>5.10. Правовые обязательства продолжаются после прекращения.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

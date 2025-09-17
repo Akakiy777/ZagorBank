@@ -1,0 +1,344 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style>
+    @import url(https://fonts.googleapis.com/css2?family=Lato&display=swap);
+    @import url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap);
+    @import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200);
+
+    /* Основные стили */
+    .product-container {
+        width: 100%;
+        max-width: 1200px;
+        min-height: 800px;
+        background-color: white;
+        border-radius: 36px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+        padding: 32px;
+        box-sizing: border-box;
+    }
+
+    .product-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 32px;
+    }
+
+    .product-title {
+        font-size: 24px;
+        font-weight: 700;
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .back-button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background-color: rgb(224, 224, 224);
+        border-radius: 24px;
+        transition: background-color 0.15s;
+        text-decoration: none;
+        color: black;
+    }
+
+    .back-button:hover {
+        background-color: rgb(202, 202, 202);
+    }
+
+    .product-content {
+        display: flex;
+        gap: 32px;
+    }
+
+    .product-image-container {
+        width: 50%;
+        position: relative;
+        height: 600px;
+        border-radius: 36px;
+        overflow: hidden;
+        border: 2px solid #d4d4d4;
+    }
+
+    .product-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .product-details {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .product-name {
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 36px;
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .product-price {
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 36px;
+    }
+
+    .product-description {
+        color: rgb(127, 127, 127);
+        overflow-y: auto;
+        max-height: 200px;
+        padding-right: 10px;
+    }
+
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding-top: 16px;
+    }
+
+    .quantity-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .quantity-button {
+        padding: 8px;
+        background-color: white;
+        border-radius: 24px;
+        border: none;
+        transition: background-color 0.15s;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .quantity-button:hover {
+        background-color: rgb(238, 238, 238);
+    }
+
+    .quantity-input {
+        width: 80px;
+        padding: 8px 16px;
+        text-align: center;
+        border-radius: 24px;
+        border: 1px solid #e5e7eb;
+        box-sizing: border-box;
+    }
+
+    .quantity-input:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        border-color: transparent;
+        box-shadow: 0 0 0 2px rgb(115, 65, 255);
+    }
+
+    .buy-button {
+        flex: 1;
+        padding: 12px 24px;
+        background-color: rgb(115, 65, 255);
+        color: white;
+        border-radius: 24px;
+        transition: background-color 0.15s;
+        cursor: pointer;
+        border: none;
+        font-size: 16px;
+    }
+
+    .buy-button:hover {
+        background-color: rgb(99, 27, 255);
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 16px;
+        padding-top: 24px;
+    }
+
+    /* Мобильная адаптация */
+    @media (max-width: 1024px) {
+        .product-container {
+            max-width: 100%;
+            border-radius: 24px;
+            padding: 24px;
+        }
+
+        .product-content {
+            flex-direction: column;
+        }
+
+        .product-image-container,
+        .product-details {
+            width: 100%;
+        }
+
+        .product-image-container {
+            height: 400px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .product-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .product-image-container {
+            height: 300px;
+        }
+
+        .product-name {
+            font-size: 24px;
+        }
+
+        .product-price {
+            font-size: 24px;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+    }
+
+    body {
+        line-height: inherit;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #ffffff, #d4d4d4);
+        box-sizing: border-box;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+    }
+
+    .user-icon {
+        width: 5vh;
+        height: 5vh;
+    }
+
+    .pfp:hover {
+        background: #d4d4d4;
+        border-radius: 50%;
+        border: none;
+    }
+
+    .title-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .product-header-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex: 1;
+    }
+</style>
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+<div class="product-container">
+    <div class="product-inner">
+        <div class="product-header" style="width: 100%;">
+            <div class="title-container">
+                <a href="/shop/{{ product[1] }}" class="back-button" style="background: white;">
+                    <span class="material-symbols-outlined pfp" style="padding: 10px;">arrow_back</span>
+                </a>
+                <h2 class="product-title product-header-title">Товар {{ product[2] }}</h2>
+            </div>
+        </div>
+        <div class="product-content">
+            <div class="product-image-container">
+                <img src="../static/product/{{ product[5] }}" alt="Product" class="product-image"/>
+            </div>
+            <div class="product-details" style="display: flex;flex-direction: column; justify-content: space-around;align-items: center;">
+                <div style="display: flex;flex-direction: column;align-items: center;width: 100%;">
+                    <h1 class="product-name" style="text-align: center;word-break: break-all;overflow-y: scroll;max-height: 10vh;">{{ product[2] }}</h1><br>
+                    <p class="product-description" style="text-align: center;word-break: break-all;overflow-y: scroll;max-height: 20vh;">{{ product[3] }}</p>
+                </div>
+
+                <form action="/buy_product/{{ product[0] }}" method="post" style="width: 100%;">
+                    <div style="display: flex;flex-direction: column;align-items: center;width: 100%;">
+                        <div class="product-price">Ƶ <span id="price" class="z-coins formattedBalance">{{ product[4] }}</span></div>
+                        <div class="quantity-controls">
+                            <div class="quantity-selector" style="display: flex;gap: 10px;">
+                                <button type="button" id="decrement" class="quantity-button">
+                                    <span class="material-symbols-outlined">remove</span>
+                                </button>
+                                <input type="number" id="quantity" name="count" class="quantity-input" value="1" min="1" />
+                                <button type="button" id="increment" class="quantity-button">
+                                    <span class="material-symbols-outlined">add</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button type="submit" class="buy-button">
+                                Купить сейчас
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const priceElement = document.getElementById('price');
+    const quantityInput = document.getElementById('quantity');
+    const incrementButton = document.getElementById('increment');
+    const decrementButton = document.getElementById('decrement');
+
+    const basePrice = {{ product[4] }}; // Получаем базовую цену из вашего продукта
+
+    function updatePrice() {
+        const quantity = parseInt(quantityInput.value);
+        const totalPrice = basePrice * quantity;
+        priceElement.innerText = formatBalance(totalPrice.toString());
+    }
+
+    incrementButton.addEventListener('click', () => {
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+        updatePrice();
+    });
+
+    decrementButton.addEventListener('click', () => {
+        if (quantityInput.value > 1) {
+            quantityInput.value = parseInt(quantityInput.value) - 1;
+            updatePrice();
+        }
+    });
+
+    quantityInput.addEventListener('input', () => {
+        if (quantityInput.value < 1) quantityInput.value = 1;
+        updatePrice();
+    });
+
+    // Инициализация цены при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        formatAllBalances();
+        updatePrice();
+    });
+</script>
+{% endblock %}

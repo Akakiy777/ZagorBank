@@ -1,0 +1,375 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style>
+    @import url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap);
+    @import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200);
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        padding: 16px;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #ffffff, #d4d4d4);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 20px 0;
+    }
+
+    .nav {
+        background-color: white;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+    }
+
+    .nav-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1f2937;
+    }
+
+    .main-card {
+        background-color: white;
+        border-radius: 24px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        width: 100%;
+    }
+
+    .form-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .form-box {
+        background-color: #f7f7f7;
+        border-radius: 16px;
+        padding: 24px;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .form-toggle {
+        margin-bottom: 24px;
+    }
+
+    .form-toggle summary {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1f2937;
+        cursor: pointer;
+        padding: 8px 0;
+    }
+
+    .form-toggle summary:hover {
+        color: #3b82f6;
+    }
+
+    .toggle-buttons {
+        display: flex;
+        gap: 16px;
+        margin-top: 16px;
+    }
+
+    .toggle-btn {
+        flex: 1;
+        padding: 8px 16px;
+        border-radius: 12px;
+        color: white;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .login-btn {
+        background-color: #3b82f6;
+    }
+
+    .login-btn:hover {
+        background-color: #2563eb;
+    }
+
+    .register-btn {
+        background-color: #22c55e;
+    }
+
+    .register-btn:hover {
+        background-color: #16a34a;
+    }
+
+    .form-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: #1f2937;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 10px 16px;
+        border-radius: 12px;
+        border: 1px solid #d1d5db;
+        outline: none;
+        transition: all 0.3s;
+    }
+
+    .form-input:focus {
+        border-color: transparent;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+    }
+
+    .login-input:focus {
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+    }
+
+    .register-input:focus {
+        box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.5);
+    }
+
+    .agreement-group {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin: 16px 0;
+    }
+
+    .agreement-link {
+        color: #3b82f6;
+        text-decoration: underline;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        border: none;
+        color: white;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .login-submit {
+        background-color: #3b82f6;
+    }
+
+    .login-submit:hover {
+        background-color: #2563eb;
+    }
+
+    .register-submit {
+        background-color: #22c55e;
+    }
+
+    .register-submit:hover {
+        background-color: #16a34a;
+    }
+
+    .home-btn {
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        background-color: #733ff1;
+        color: white;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+    }
+
+    .home-btn:hover {
+        background-color: #6338d1;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    /* Адаптивность для мобильных устройств */
+    @media (max-width: 768px) {
+        body {
+            padding: 12px;
+        }
+
+        .nav {
+            padding: 12px;
+        }
+
+        .nav-title {
+            font-size: 20px;
+        }
+
+        .main-card {
+            padding: 16px;
+            border-radius: 16px;
+        }
+
+        .form-box {
+            padding: 20px;
+        }
+
+        .form-toggle summary {
+            font-size: 18px;
+        }
+
+        .toggle-buttons {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-title {
+            font-size: 18px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .form-box {
+            padding: 16px;
+        }
+
+        .form-toggle summary {
+            font-size: 16px;
+        }
+
+        .form-title {
+            font-size: 16px;
+        }
+
+        .form-input {
+            padding: 8px 12px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-box" style="background-color: white;">
+        <details class="form-toggle">
+            <summary>Выберите</summary>
+            <div class="toggle-buttons">
+                <button id="loginBtn" class="toggle-btn login-btn">Вход</button>
+                <button id="registerBtn" class="toggle-btn register-btn">Регистрация</button>
+            </div>
+        </details>
+
+        <div class="form-content">
+            <div id="loginForm">
+                <h3 class="form-title">Вход</h3>
+                <form method="POST">
+                    <input type="hidden" name="action" value="login">
+                    <div class="form-group">
+                        <label class="form-label">Имя пользователя</label>
+                        <input type="text" name="name" placeholder="Имя" required class="form-input login-input" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Пароль</label>
+                        <input type="password" name="password" placeholder="Пароль" required
+                            class="form-input login-input" />
+                    </div>
+                    <div class="form-group">
+                        <div class="agreement-group" style="display: flex;align-items: center;">
+                            <input type="checkbox" id="loginAgreement" required />
+                            <label style="font-weight: bolder;" for="loginAgreement" class="form-label">Принять <a style="text-decoration: none;" href="/agreement"
+                                    class="agreement-link">cоглашение</a></label>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn login-submit">Далее</button>
+                </form>
+            </div>
+            <div id="registerForm" class="hidden">
+                <h3 class="form-title">Регистрация</h3>
+                <form method="POST">
+                    <input type="hidden" name="action" value="register">
+                    <div class="form-group">
+                        <label class="form-label">Имя пользователя</label>
+                        <input type="text" name="name" placeholder="Имя" required class="form-input register-input" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Пароль</label>
+                        <input type="password" name="password" placeholder="Пароль" required
+                            class="form-input register-input" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Подтвердите пароль</label>
+                        <input type="password" name="confirm_password" placeholder="Подтвердите пароль" required
+                            class="form-input register-input" />
+                    </div>
+                    <div class="form-group">
+                        <div class="agreement-group">
+                            <input type="checkbox" id="registerAgreement" required />
+                            <label for="registerAgreement" class="form-label">Соглашение <a href="/agreement"
+                                    class="agreement-link">прочитать</a></label>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn register-submit">Далее</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+
+    loginBtn.addEventListener('click', () => {
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+    });
+
+    registerBtn.addEventListener('click', () => {
+        registerForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+    });
+</script>
+{% endblock %}

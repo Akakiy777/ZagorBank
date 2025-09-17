@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загор</title>
+    <link href="../static/logo.png" type="image/png" rel="icon">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #ffffff, #d4d4d4);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .main-section {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #1a365d;
+        }
+
+        .main-description {
+            font-size: 1.25rem;
+            max-width: 650px;
+            margin: 0 auto 40px;
+            color: #4a5568;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #1d4ed8;
+            transform: scale(1.05);
+        }
+
+        .features-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px 20px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+
+        .icon-blue {
+            background-color: #dbeafe;
+        }
+
+        .icon-green {
+            background-color: #dcfce7;
+        }
+
+        .icon-purple {
+            background-color: #f3e8ff;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1a365d;
+        }
+
+        .feature-description {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .material-symbols-outlined {
+            font-size: 36px;
+        }
+
+        /* Медиазапросы для адаптивности */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .main-description {
+                font-size: 1.125rem;
+            }
+            
+            .features-section {
+                grid-template-columns: 1fr;
+                padding: 30px 15px;
+            }
+            
+            .feature-card {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-section {
+                padding: 40px 15px;
+            }
+            
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .cta-button {
+                padding: 14px 28px;
+                font-size: 1rem;
+            }
+            
+            .feature-icon {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <main class="main-section">
+            <h1 class="main-title">Загор</h1>
+            <p class="main-description">Лучшее в своей сфере приложение инновационное и прогрессивное, способное заменить собой сразу 5 других.</p>
+            <a href="/main" class="cta-button">Начать</a>
+        </main>
+        
+        <section class="features-section">
+            <div class="feature-card">
+                <div class="feature-icon icon-blue">
+                    <span class="material-symbols-outlined">credit_card</span>
+                </div>
+                <h3 class="feature-title">Удобство</h3>
+                <p class="feature-description">Вам больше не придется переходить каждую секунду из одного приложения в другое, потому что всё, что вам нужно, уже есть в Загор.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon icon-green">
+                    <span class="material-symbols-outlined">savings</span>
+                </div>
+                <h3 class="feature-title">Инновации</h3>
+                <p class="feature-description">Место однообразных, скудных по функционалу приложений Загор представляет собой уникальную универсальную платформу.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon icon-purple">
+                    <span class="material-symbols-outlined">security</span>
+                </div>
+                <h3 class="feature-title">Безопасность</h3>
+                <p class="feature-description">В приложении безопасность на высшем уровне, потому что в нём используется алгоритм хэширования, чего нет в большинстве других аналогов.</p>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
